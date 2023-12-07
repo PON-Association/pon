@@ -1,0 +1,17 @@
+syntax = "proto3";
+package pon.pon;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "pon/pon/params.proto";
+
+option go_package = "pon/x/pon/types";
+
+// GenesisState defines the pon module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
