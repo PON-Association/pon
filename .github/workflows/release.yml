@@ -37,10 +37,8 @@ jobs:
       
     
       - name: Delete Release
-        run: gh release delete ${{ github.event.inputs.tag }} --cleanup-tag
+        run: gh release delete ${{ steps.vars.outputs.tag_name }} --cleanup-tag
         if: ${{ steps.vars.outputs.is_release_type_latest == 'true'  }}
-        with:
-          tag: ${{ steps.vars.outputs.tag_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
