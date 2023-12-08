@@ -41,8 +41,8 @@ func initRootCmd(
 		confixcmd.ConfigCommand(),
 		pruning.Cmd(newApp, app.DefaultNodeHome),
 		snapshot.Cmd(newApp),
-		genutilcli.ValidateGenesisCmd(basicManager),
-		genutilcli.AddGenesisAccountCmd(app.DefaultNodeHome, txConfig.SigningContext().AddressCodec()),
+		// genutilcli.ValidateGenesisCmd(basicManager),
+		// genutilcli.AddGenesisAccountCmd(app.DefaultNodeHome, txConfig.SigningContext().AddressCodec()),
 	)
 
 	server.AddCommands(rootCmd, app.DefaultNodeHome, newApp, appExport, addModuleInitFlags)
@@ -50,7 +50,7 @@ func initRootCmd(
 	// add keybase, auxiliary RPC, query, genesis, and tx child commands
 	rootCmd.AddCommand(
 		server.StatusCommand(),
-		genesisCommand(txConfig, basicManager),
+		genesisCommand(txConfig, basicManager, rootCmd),
 		queryCommand(),
 		txCommand(),
 		keys.Commands(),
@@ -62,11 +62,12 @@ func addModuleInitFlags(startCmd *cobra.Command) {
 }
 
 // genesisCommand builds genesis-related `pond genesis` command. Users may provide application specific commands as a parameter
-func genesisCommand(txConfig client.TxConfig, basicManager module.BasicManager, cmds ...*cobra.Command) *cobra.Command {
+func genesisCommand(txConfig client.TxConfig, basicManager module.BasicManager, rootCmd *cobra.Command, cmds ...*cobra.Command) *cobra.Command {
 	cmd := genutilcli.Commands(txConfig, basicManager, app.DefaultNodeHome)
 
 	for _, subCmd := range cmds {
 		cmd.AddCommand(subCmd)
+		rootCmd.AddCommand(subCmd)
 	}
 	return cmd
 }
