@@ -42,7 +42,7 @@ func initRootCmd(
 		pruning.Cmd(newApp, app.DefaultNodeHome),
 		snapshot.Cmd(newApp),
 		genutilcli.ValidateGenesisCmd(basicManager),
-		genutilcli.AddGenesisAccountCmd(txConfig.SigningContext().AddressCodec()),
+		genutilcli.AddGenesisAccountCmd(app.DefaultNodeHome, txConfig.SigningContext().AddressCodec()),
 	)
 
 	server.AddCommands(rootCmd, app.DefaultNodeHome, newApp, appExport, addModuleInitFlags)
