@@ -6,6 +6,8 @@ import (
 
 	"cosmossdk.io/log"
 	confixcmd "cosmossdk.io/tools/confix/cmd"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	// genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/debug"
@@ -22,6 +24,7 @@ import (
 	authcmd "github.com/cosmos/cosmos-sdk/x/auth/client/cli"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
+	// "github.com/cosmos/cosmos-sdk/x/genutil"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
@@ -41,8 +44,10 @@ func initRootCmd(
 		confixcmd.ConfigCommand(),
 		pruning.Cmd(newApp, app.DefaultNodeHome),
 		snapshot.Cmd(newApp),
-		// genutilcli.ValidateGenesisCmd(basicManager),
-		// genutilcli.AddGenesisAccountCmd(app.DefaultNodeHome, txConfig.SigningContext().AddressCodec()),
+		genutilcli.ValidateGenesisCmd(basicManager),
+		genutilcli.AddGenesisAccountCmd(app.DefaultNodeHome, txConfig.SigningContext().AddressCodec()),
+		genutilcli.GenTxCmd(basicManager, txConfig, banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome, txConfig.SigningContext().ValidatorAddressCodec()),
+		// genutilcli.CollectGenTxsCmd(banktypes.GenesisBalancesIterator{}, basicManager[genutiltypes.ModuleName].(genutil.AppModuleBasic).GenTxValidator, app.DefaultNodeHome, txConfig.SigningContext().ValidatorAddressCodec()),
 	)
 
 	server.AddCommands(rootCmd, app.DefaultNodeHome, newApp, appExport, addModuleInitFlags)
@@ -67,7 +72,6 @@ func genesisCommand(txConfig client.TxConfig, basicManager module.BasicManager, 
 
 	for _, subCmd := range cmds {
 		cmd.AddCommand(subCmd)
-		rootCmd.AddCommand(subCmd)
 	}
 	return cmd
 }
