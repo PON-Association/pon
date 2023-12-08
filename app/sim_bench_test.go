@@ -14,7 +14,7 @@ import (
 	simcli "github.com/cosmos/cosmos-sdk/x/simulation/client/cli"
 	"github.com/stretchr/testify/require"
 
-	"pon/app"
+	"github.com/PON-Association/pon/app"
 )
 
 // Profile with:
@@ -45,7 +45,7 @@ func BenchmarkFullAppSimulation(b *testing.B) {
 
 	bApp, err := app.New(logger, db, nil, true, appOptions, interBlockCacheOpt())
 	require.NoError(b, err)
-	require.Equal(b, app.Name, bApp.Name())
+    require.Equal(b, app.Name, bApp.Name())
 
 	// run randomized simulation
 	_, simParams, simErr := simulation.SimulateFromSeed(
@@ -102,8 +102,8 @@ func BenchmarkInvariants(b *testing.B) {
 
 	bApp, err := app.New(logger, db, nil, true, appOptions, interBlockCacheOpt())
 	require.NoError(b, err)
-	require.Equal(b, app.Name, bApp.Name())
-
+    require.Equal(b, app.Name, bApp.Name())
+    
 	// run randomized simulation
 	_, simParams, simErr := simulation.SimulateFromSeed(
 		b,

@@ -24,12 +24,12 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 
-	"pon/app"
+	"github.com/PON-Association/pon/app"
 )
 
 // NewRootCmd creates a new root command for pond. It is called once in the main function.
 func NewRootCmd() *cobra.Command {
-	initSDKConfig()
+    initSDKConfig()
 
 	var (
 		txConfigOpts       tx.ConfigOptions
@@ -61,8 +61,8 @@ func NewRootCmd() *cobra.Command {
 	app.AddIBCModuleManager(moduleBasicManager)
 
 	rootCmd := &cobra.Command{
-		Use:           app.Name + "d",
-		Short:         "Start pon node",
+		Use:   app.Name + "d",
+		Short: "Start pon node",
 		SilenceErrors: true,
 		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
 			// set the default command outputs

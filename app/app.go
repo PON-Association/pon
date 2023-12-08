@@ -53,10 +53,9 @@ import (
 	ibctransferkeeper "github.com/cosmos/ibc-go/v8/modules/apps/transfer/keeper"
 	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
 
-	ponmodulekeeper "pon/x/pon/keeper"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
-	"pon/docs"
+	"github.com/PON-Association/pon/docs"
 )
 
 const (
@@ -102,7 +101,7 @@ type App struct {
 	ConsensusParamsKeeper consensuskeeper.Keeper
 	CircuitBreakerKeeper  circuitkeeper.Keeper
 
-	// IBC
+    // IBC
 	IBCKeeper           *ibckeeper.Keeper // IBC Keeper must be a pointer in the app, so we can SetRouter on it correctly
 	CapabilityKeeper    *capabilitykeeper.Keeper
 	IBCFeeKeeper        ibcfeekeeper.Keeper
@@ -116,7 +115,6 @@ type App struct {
 	ScopedICAControllerKeeper capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
 
-	PonKeeper ponmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
@@ -181,12 +179,12 @@ func New(
 			depinject.Supply(
 				// Supply the application options
 				appOpts,
-				// Supply with IBC keeper getter for the IBC modules with App Wiring.
-				// The IBC Keeper cannot be passed because it has not been initiated yet.
-				// Passing the getter, the app IBC Keeper will always be accessible.
-				// This needs to be removed after IBC supports App Wiring.
-				app.GetIBCKeeper,
-				app.GetCapabilityScopedKeeper,
+                // Supply with IBC keeper getter for the IBC modules with App Wiring.
+                // The IBC Keeper cannot be passed because it has not been initiated yet.
+                // Passing the getter, the app IBC Keeper will always be accessible.
+                // This needs to be removed after IBC supports App Wiring.
+                app.GetIBCKeeper,
+                app.GetCapabilityScopedKeeper,
 				// Supply the logger
 				logger,
 
@@ -198,11 +196,11 @@ func New(
 				// add it below. By default the auth module uses simulation.RandomGenesisAccounts.
 				//
 				// authtypes.RandomGenesisAccountsFn(simulation.RandomGenesisAccounts),
-				//
+                //
 				// For providing a custom a base account type add it below.
 				// By default the auth module uses authtypes.ProtoBaseAccount().
 				//
-				// func() sdk.AccountI { return authtypes.ProtoBaseAccount() },
+                // func() sdk.AccountI { return authtypes.ProtoBaseAccount() },
 				//
 				// For providing a different address codec, add it below.
 				// By default the auth module uses a Bech32 address codec,
@@ -254,7 +252,6 @@ func New(
 		&app.GroupKeeper,
 		&app.ConsensusParamsKeeper,
 		&app.CircuitBreakerKeeper,
-		&app.PonKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)
@@ -298,7 +295,7 @@ func New(
 	app.registerIBCModules()
 
 	// register streaming services
-	if err := app.RegisterStreamingServices(appOpts, app.kvStoreKeys()); err != nil {
+    if err := app.RegisterStreamingServices(appOpts, app.kvStoreKeys()); err != nil {
 		return nil, err
 	}
 

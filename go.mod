@@ -1,4 +1,4 @@
-module pon
+module github.com/PON-Association/pon
 
 go 1.21
 

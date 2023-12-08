@@ -6,8 +6,8 @@ import (
 
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 
-	"pon/app"
-	"pon/cmd/pond/cmd"
+	"github.com/PON-Association/pon/app"
+	"github.com/PON-Association/pon/cmd/pond/cmd"
 )
 
 func main() {

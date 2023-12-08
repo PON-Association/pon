@@ -5,7 +5,7 @@ import (
 	serverconfig "github.com/cosmos/cosmos-sdk/server/config"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"pon/app"
+	"github.com/PON-Association/pon/app"
 )
 
 func initSDKConfig() {
